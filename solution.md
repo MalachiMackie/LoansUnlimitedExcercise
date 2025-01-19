@@ -40,13 +40,17 @@ See the [Component Diagram](./LoansUnlimited-ComponentDiagram.png) for how compo
 ### Customer Web Interface
 
 The customer web interface has two main pieces of functionality. It will have a form for applying for a loan. For a customer's first loan with Loans Unlimited, this will also serve as a sign up form.
+
 This form will be linked to from a main static company website. Once someone is a customer of Loans Unlimited, they will have login credentials to login to the customer portal.
+
 Here they will be able to view their current loans (loan balance, application status, etc).
 
 #### Technology
 
 The customer portal will use Server Side Rendering (SSR) with mvc along with client side angular for the limited amount of interactivity.
+
 Using SSR lets a dotnet team build quickly with a language they know. It limits the download bundle size of the site, ensuring fast loading for customers.
+
 Using client side angular for interactivity keeps open the option of expanding functionality in the future. Using purely SSR would limit the interactivity of the site in the future
 
 ##### Tradeoffs
@@ -61,13 +65,17 @@ The customer web api needs to be able to accept and process a customer's loan ap
 #### Technology
 
 The customer web api will be built using .Net 8 as it is the latest LTS release of .Net.
+
 It will use Entity Framework (EF) Core to connect to the database as it provides a fast and easy developer experience and the complexity of database queries will be low considering the domain.
+
 The code will be architected using a very simple clean code architecture, keeping database concerns out of the application layer.
 
 ##### Tradeoffs
 
-See [Choosing Monolith vs separate apis](#choosing-monolith-vs-separate-apis) for tradeoffs of separate services between customer api and loan provider agent api
-Keeping to the LTS release of .Net means slower uptake on each release's performance and language improvements, but it allows Microsoft to iron out any teething issues before upgrading versions
+See [Choosing Monolith vs separate apis](#choosing-monolith-vs-separate-apis) for tradeoffs of separate services between customer api and loan provider agent api.
+
+Keeping to the LTS release of .Net means slower uptake on each release's performance and language improvements, but it allows Microsoft to iron out any teething issues before upgrading versions.
+
 Using EF Core incures some performance penalties at the cost of developer experience. For a simple domain, EF Core is super simple to use and setup, but as a domain becomes more complex, EF Core configuration can become very complex as well.
 
 ### Credit Check Response Lambda
@@ -77,9 +85,12 @@ Using EF Core incures some performance penalties at the cost of developer experi
 ### Database
 
 The database will be an RDS managed MySql instance. MySql provides a good balance between cost, functionality and number of developers with MySql experience.
+
 Each table will have change tracking triggers that will copy values to an audit table. this will provide an audit history of all changes done to any table.
+
 Database will be configured to encrypt at rest so if a database backup is leaked or someone gets access to the file system, no information will be exposed.
-SSL will also be required for any applications to connect to the database, ensuring data is encrypted as its sent between the database any any applications
+
+SSL will also be required for any applications to connect to the database, ensuring data is encrypted as its sent between the database any any applications.
 
 ### Loan Provider Agent Web Interface 
 
@@ -93,6 +104,7 @@ so it is not available publically.
 ##### Tradeoffs
 
 SPA's are generally slower to load. This is fine as this is an internal application not for public use, and will be cached.
+
 Alternative would be building something like an Electron app. To do this, you either have to have the api accessible to the internet and rely on authentication, or have the private network link anyway. It also makes deployment/installation management more complicated.
 
 ### Loan Provider Agent API
@@ -102,7 +114,9 @@ This api needs to access customers' loan application and let loan provider agent
 #### Technology
 
 It will also be a .Net 8 api, but will be a separate application from the customer web api to ensure the ability to approve loans is not at all accessible over the internet.
+
 It will be hosted has an ecs container within an AWS VPC.
+
 It needs to access the same database that the customer web application does, so a version column will be used in each table to ensure the most up to date data is being viewed/acted on
 
 ##### Tradeoffs
@@ -117,6 +131,7 @@ AWS SQS queues will be used to handle any asynchronous actions within the applic
 ### Email Queue Handler
 
 This will be a .Net 8 lambda registered as an sqs queue handler so that the success or failure of an email to send does not impact the rest of the request or application.
+
 Any failed email queue messages will also be forwarded to a separate email failure queue for easy monitoring
 
 ### Bank File Exporter
@@ -131,7 +146,8 @@ This will be a timed .Net 8 lambda set to trigger at 9pm and 9:30pm. If the firs
 
 #### Networking
 
-All the aws components will be hosted within a VPC, with only the customer web api being accessible publically
+All the aws components will be hosted within a VPC, with only the customer web api being accessible publically.
+
 Uses AWS Direct Connect to connect on prem network to aws vpc to ensure loan provider agent application is not available publically
 
 #### Logging
