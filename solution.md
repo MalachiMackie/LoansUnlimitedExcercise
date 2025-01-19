@@ -31,11 +31,11 @@ Loans Unlimited is a company where customers can apply for loans though a web pa
 
 ## Data Model
 
-See `./LoansUnlimited-DataModel.png` for data model 
+Data Model [here](./LoansUnlimited-DataModel.png)
 
 ## Components
 
-See `./LoansUnlimited-ComponentDiagram.png` for how components interact
+See the [Component Diagram](./LoansUnlimited-ComponentDiagram.png) for how components interact
 
 ### Customer Web Interface
 
