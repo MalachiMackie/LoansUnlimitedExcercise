@@ -66,7 +66,7 @@ The code will be architected using a very simple clean code architecture, keepin
 
 ##### Tradeoffs
 
-See "Choosing Monolith vs separate api's" for tradeoffs of separate services between customer api and loan provider agent api
+See [Choosing Monolith vs separate apis](#choosing-monolith-vs-separate-apis) for tradeoffs of separate services between customer api and loan provider agent api
 Keeping to the LTS release of .Net means slower uptake on each release's performance and language improvements, but it allows Microsoft to iron out any teething issues before upgrading versions
 Using EF Core incures some performance penalties at the cost of developer experience. For a simple domain, EF Core is super simple to use and setup, but as a domain becomes more complex, EF Core configuration can become very complex as well.
 
@@ -107,7 +107,7 @@ It needs to access the same database that the customer web application does, so 
 
 ##### Tradeoffs
 
-See "Choosing Monolith vs separate api's" for tradeoffs of separate services between customer api and loan provider agent api
+See [Choosing Monolith vs separate apis](#choosing-monolith-vs-separate-apis) for tradeoffs of separate services between customer api and loan provider agent api
 Hosting this separately from the customer web api means maintaining another application and deployment
 
 ### Queues
@@ -165,7 +165,7 @@ All the .Net applications will be built into docker containers and deployed to e
 - There will be a "super user" that can register loan provider agents to access the system
 - Integration with bank to update loan balance is out of scope
 
-### Choosing Monolith vs separate api's
+### Choosing Monolith vs separate apis
 two distinct parts to the system: customer api and loan provider agent api
 separate ui's
 want to minimize possibility of security vulnrability allowing loan approvals from customer ui/api
